@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book Library</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333333;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1 {
+            color: #1f4e79;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        .count-badge {
+            background-color: #e8f0fe;
+            color: #1f4e79;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn-add {
+            background-color: #1f4e79;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+            display: inline-block;
+        }
+        .btn-add:hover {
+            background-color: #163857;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        th {
+            background-color: #1f4e79;
+            color: #ffffff;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        .status-available {
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-block;
+        }
+        .status-issued {
+            color: #c62828;
+            background-color: #ffebee;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-block;
+        }
+        .empty-row {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-style: italic;
+        }
+        .footer-nav {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+        }
+        .footer-nav a {
+            color: #1f4e79;
+            text-decoration: none;
+        }
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Book Library</h1>
+        <p class="subtitle">Django Database-Driven Library Management System</p>
+
+        <div class="actions-bar">
+            <span class="count-badge">Total books: {{ books|length }}</span>
+            <a href="{% url 'add_book' %}" class="btn-add">+ Add a new book</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 8%;">No.</th>
+                    <th style="width: 38%;">Title</th>
+                    <th style="width: 28%;">Author</th>
+                    <th style="width: 12%;">Year</th>
+                    <th style="width: 14%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><strong>{{ book.title }}</strong></td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.year_published }}</td>
+                    <td>
+                        {% if book.is_available %}
+                            <span class="status-available">Available</span>
+                        {% else %}
+                            <span class="status-issued">Issued</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="empty-row">No books yet. Add some in the admin page or using the link above.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="footer-nav">
+            <a href="/admin/">Django Admin Panel</a> | Practice Manual 2: Database Website
+        </div>
+    </div>
+</body>
+</html>
